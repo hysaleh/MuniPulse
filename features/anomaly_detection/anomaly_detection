@@ -1,1 +1,28 @@
 
+from sklearn.svm import OneClassSVM
+import matplotlib.pyplot as plt
+
+def detect_outliers(data):
+    numeric_data = data.select_dtypes(include=['number'])
+    clf = OneClassSVM(nu=0.01)
+    outliers = clf.fit_predict(numeric_data)
+    
+    data['is_anomaly'] = outliers == -1
+    
+    return data
+
+#whether or not anomalies are discovered, a scatter plot will be displayed
+def plot_anomalies_scatter(data, feature1, feature2):
+    anomalies = data[data['is_anomaly']]
+    normal_data = data[~data['is_anomaly']]
+
+    plt.scatter(normal_data[feature1], normal_data[feature2], label='Normal Data')
+    plt.scatter(anomalies[feature1], anomalies[feature2], label='Anomalies', color='red')
+
+    plt.xlabel(feature1)
+    plt.ylabel(feature2)
+    plt.legend()
+    plt.title('Scatter Plot of Anomalies')
+    plt.show()
+
+
