@@ -1,9 +1,3 @@
-
-
-
-
-
-
 import streamlit as st
 from data.data_handler import load_data
 from features.anomaly_detection.anomaly_detection import detect_outliers, plot_anomalies_scatter
